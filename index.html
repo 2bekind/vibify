@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vibify</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar__inner">
+    <div class="brand">
+      <div class="brand__text">
+        <span class="brand__name">Vibify</span>
+      </div>
+    </div>
+
+    <div id="topbarLoggedOut" style="display:flex; align-items:center; gap:10px;">
+      <button class="btn btn--primary" id="loginBtn">
+        Войти или создать аккаунт
+      </button>
+    </div>
+
+    <div id="topbarLoggedIn" style="display:none; align-items:center; gap:10px;">
+      <span class="mono" id="loggedInAs" style="font-size:13px; color:var(--text-dim);"></span>
+      <button class="btn btn--ghost" id="logoutBtn">Выйти</button>
+      <button class="btn btn--primary" id="openCreateModal">
+        <span class="btn__icon">+</span>
+        Создать альбом
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="stage">
+
+  <section class="view view--grid" id="view-grid">
+    <div class="view__head">
+      <h1 class="view__title">Все альбомы</h1>
+      <span class="view__count mono" id="albumCount">0 альбомов</span>
+    </div>
+
+    <div class="album-grid" id="albumGrid">
+      </div>
+
+    <div class="empty-state" id="emptyAlbums">
+      <h2 id="emptyAlbumsTitle">Здесь пока пусто</h2>
+      <p id="emptyAlbumsText">Соберите первый альбом — добавляйте треки и делитесь звучанием с друзьями.</p>
+      <button class="btn btn--primary" id="emptyCreateBtn">
+        <span class="btn__icon">+</span>
+        Создать первый альбом
+      </button>
+    </div>
+  </section>
+
+  <section class="view view--album" id="view-album" hidden>
+    <button class="back-btn" id="backBtn">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M11 3.5L5.5 9L11 14.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Все альбомы
+    </button>
+
+    <div class="album-header">
+      <div class="album-header__disc" id="albumDiscBig"></div>
+      <div class="album-header__info" style="flex: 1; min-width: 0;">
+        <div class="album-header__title-row">
+          <h1 class="album-header__title" id="albumTitle">Название альбома</h1>
+          <input type="text" class="album-header__title-input" id="albumTitleInput" maxlength="60" hidden>
+          <button class="rename-btn" id="renameBtn" title="Переименовать альбом" aria-label="Переименовать альбом">
+            <svg width="14" height="14" viewBox="0 0 15 15" fill="none"><path d="M10.5 2.5l2 2-7.3 7.3-2.6.6.6-2.6 7.3-7.3z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        
+        <div class="album-header__author-row">
+          <span class="album-header__author mono" id="albumAuthor">автор: —</span>
+          <input type="text" class="album-header__author-input" id="albumAuthorEditInput" maxlength="40" hidden>
+          <button class="rename-btn rename-btn--sm" id="renameAuthorBtn" title="Изменить автора" aria-label="Изменить автора">
+            <svg width="12" height="12" viewBox="0 0 15 15" fill="none"><path d="M10.5 2.5l2 2-7.3 7.3-2.6.6.6-2.6 7.3-7.3z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+
+        <div class="album-header__desc-row" style="display: flex; align-items: flex-start; gap: 6px; margin-bottom: 12px;">
+          <p class="album-header__description" id="albumDescription" style="margin: 0; font-size: 14px; color: var(--text-dim); line-height: 1.4; word-break: break-word;">Описание отсутствует</p>
+          <textarea class="album-header__description-input" id="albumDescriptionInput" maxlength="200" rows="2" style="font-family: inherit; font-size: 14px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); padding: 4px 8px; outline: none; width: 100%; max-width: 400px; resize: vertical;" hidden></textarea>
+          <button class="rename-btn rename-btn--sm" id="renameDescBtn" title="Изменить описание" aria-label="Изменить описание" style="margin-top: 2px;">
+            <svg width="12" height="12" viewBox="0 0 15 15" fill="none"><path d="M10.5 2.5l2 2-7.3 7.3-2.6.6.6-2.6 7.3-7.3z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+
+        <div class="album-header__row">
+          <span class="mono album-header__meta" id="albumMeta">0 треков</span>
+          <button class="share-btn" id="adminToggleBtn" title="Режим администратора" hidden>
+            Админ
+          </button>
+          <button class="share-btn" id="shareBtn" title="Скопировать ссылку на альбом">
+            <svg width="14" height="14" viewBox="0 0 15 15" fill="none"><path d="M6.2 8.8L9 6.7M9 6.7a1.9 1.9 0 1 0-.65-1.45M9 6.7c.4.35.65.85.65 1.4M6.2 8.8a1.9 1.9 0 1 1-.65-1.45M6.2 8.8c-.4-.35-.65-.85-.65-1.4m0 0L9 5.1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span id="shareBtnText">Поделиться</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="search-wrap" id="searchWrap">
+      <div class="search-box">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" class="search-box__icon">
+          <circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M12.2 12.2L16 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <input type="text" id="searchInput" placeholder="Добавить песню — начните печатать название или артиста…" autocomplete="off">
+        <div class="search-box__spinner" id="searchSpinner" hidden></div>
+      </div>
+
+      <div class="search-results" id="searchResults" hidden></div>
+    </div>
+
+    <div class="track-list" id="trackList">
+      </div>
+
+    <div class="empty-state empty-state--small" id="emptyTracks">
+      <p>Треков пока нет. Найдите первую песню в строке поиска выше.</p>
+    </div>
+
+    <section class="reviews">
+      <div class="reviews__head">
+        <h2 class="reviews__title">Оценки и отзывы</h2>
+        <div class="reviews__summary" id="reviewsSummary" hidden>
+          <span class="reviews__stars" id="reviewsAverageStars"></span>
+          <span class="mono reviews__count" id="reviewsCount">0 оценок</span>
+        </div>
+      </div>
+
+      <div class="review-form" id="reviewForm">
+        <input type="text" class="review-form__input" id="reviewAuthorInput" placeholder="Ваше имя" maxlength="40">
+        <div class="star-picker" id="starPicker">
+          <button type="button" class="star-picker__btn" data-star="1" aria-label="1 звезда">★</button>
+          <button type="button" class="star-picker__btn" data-star="2" aria-label="2 звезды">★</button>
+          <button type="button" class="star-picker__btn" data-star="3" aria-label="3 звезды">★</button>
+          <button type="button" class="star-picker__btn" data-star="4" aria-label="4 звезды">★</button>
+          <button type="button" class="star-picker__btn" data-star="5" aria-label="5 звезд">★</button>
+        </div>
+        <textarea class="review-form__textarea" id="reviewTextInput" placeholder="Напишите отзыв (необязательно)" maxlength="300" rows="2"></textarea>
+        <button class="btn btn--primary review-form__submit" id="submitReviewBtn">Оставить оценку</button>
+      </div>
+
+      <div class="empty-state empty-state--small" id="ownerReviewNotice" hidden>
+        <p>Вы автор этого альбома — оставить отзыв самому себе нельзя.</p>
+      </div>
+
+      <div class="review-list" id="reviewList"></div>
+
+      <div class="empty-state empty-state--small" id="emptyReviews">
+        <p>Оценок пока нет. Будьте первым, кто оценит этот альбом.</p>
+      </div>
+    </section>
+  </section>
+
+</main>
+
+<div class="modal-overlay" id="loginModalOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle">
+    <h2 class="modal__title" id="loginModalTitle">Войти или создать аккаунт</h2>
+    <p class="modal__sub">Впиши логин и пароль. Если такого логина ещё нет — аккаунт создастся автоматически.</p>
+    <input type="text" class="modal__input" id="loginNameInput" placeholder="Логин, например koko" maxlength="30" autocomplete="username">
+    <input type="password" class="modal__input modal__input--spaced" id="loginPasswordInput" placeholder="Пароль" maxlength="60" autocomplete="current-password">
+    <p class="mono" id="loginError" style="display:none; color:var(--danger); font-size:12.5px; margin:8px 0 0;"></p>
+    <div class="modal__actions">
+      <button class="btn btn--ghost" id="cancelLogin">Отмена</button>
+      <button class="btn btn--primary" id="confirmLogin">Войти</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <h2 class="modal__title" id="modalTitle">Новый альбом</h2>
+    <p class="modal__sub">Дайте своему альбомничку название крутецкое, потом все можно поменять.</p>
+    <input type="text" class="modal__input" id="albumNameInput" placeholder="Пепе название" maxlength="60">
+    <input type="text" class="modal__input modal__input--spaced" id="albumAuthorInput" placeholder="Имя шнейне кто создал" maxlength="40">
+    <textarea class="modal__input modal__input--spaced" id="albumDescriptionInputModal" placeholder="Описание коко пепе" maxlength="200" rows="2" style="font-family: inherit; resize: vertical;"></textarea>
+    <div class="modal__actions">
+      <button class="btn btn--ghost" id="cancelCreate">Отмена</button>
+      <button class="btn btn--primary" id="confirmCreate">Создать</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="app.js"></script>
+</body>
+</html>
