@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vibify</title>
-<link rel="icon" type="image/png" href="assets/site-icon.png">
+<link rel="icon" type="image/png" href="assets/site-icon.png?v=2">
 <title>Vibify</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,12 +13,25 @@
 </head>
 <body>
 
-<aside class="sidebar" aria-label="Основная навигация">
+<div class="app-loader" id="appLoader" role="status" aria-live="polite">
+  <img class="app-loader__icon" src="assets/site-icon.png?v=2" alt="">
+  <div class="app-loader__name">Vibify</div>
+  <div class="app-loader__text">Подготавливаем музыку…</div>
+  <span class="app-loader__bar" aria-hidden="true"><span></span></span>
+</div>
+
+<button class="menu-toggle" id="menuToggle" type="button" aria-label="Открыть навигацию" aria-controls="sidebar" aria-expanded="false">
+  <span></span><span></span><span></span>
+</button>
+<div class="sidebar-backdrop" id="sidebarBackdrop" aria-hidden="true"></div>
+<aside class="sidebar" id="sidebar" aria-label="Основная навигация">
   <nav class="sidebar__nav">
+    <span class="sidebar__indicator" aria-hidden="true"></span>
     <button class="sidebar__tab is-active" data-tab="home" title="Главная" aria-label="Главная"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M9 18C10.8167 16.7889 13.1833 16.7889 15 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3 11.9961C3 10.2515 3.72503 8.59694 4.97899 7.48003L8.47898 4.36255C10.5186 2.54582 13.4814 2.54582 15.521 4.36255L19.021 7.48002C20.275 8.59693 21 10.2515 21 11.9961V15.1213C21 18.368 18.5376 21 15.5 21H8.5C5.46243 21 3 18.368 3 15.1213V11.9961Z" stroke="currentColor" stroke-width="1.5"/></svg></button>
     <button class="sidebar__tab" data-tab="users" title="Пользователи" aria-label="Пользователи"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12.0008" cy="6.5999" r="2.7" stroke="currentColor" stroke-width="1.5"/><circle cx="5.70039" cy="7.49995" r="1.8" stroke="currentColor" stroke-width="1.5"/><circle cx="1.8" cy="1.8" r="1.8" transform="matrix(-1 0 0 1 20.0996 5.69995)" stroke="currentColor" stroke-width="1.5"/><path d="M6.9375 14.5312C6.9375 13.1333 8.07078 12 9.46875 12H14.5312C15.9292 12 17.0625 13.1333 17.0625 14.5312V16.05C17.0625 18.2868 15.2493 20.1 13.0125 20.1H10.9875C8.75075 20.1 6.9375 18.2868 6.9375 16.05V14.5312Z" stroke="currentColor" stroke-width="1.5"/><path d="M5.53125 12C4.13328 12 3 13.1333 3 14.5312V17.4C3 18.8912 4.20883 20.1 5.7 20.1H6.15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M18.4687 12C19.8667 12 21 13.1333 21 14.5312V17.4C21 18.8912 19.7912 20.1 18.3 20.1H17.85" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
     <button class="sidebar__tab" data-tab="reviews" title="Оценки" aria-label="Оценки"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M10.6798 4.00049C11.0954 2.6665 12.9046 2.6665 13.3201 4.00049L14.4932 7.76627C14.679 8.36285 15.212 8.76676 15.8133 8.76676H19.6092C20.9539 8.76676 21.513 10.5616 20.4252 11.3861L17.3542 13.7135C16.8677 14.0822 16.6641 14.7357 16.8499 15.3323L18.0229 19.0981C18.4385 20.4321 16.9747 21.5414 15.8869 20.7169L12.8159 18.3895C12.3294 18.0208 11.6706 18.0208 11.1841 18.3895L8.11312 20.7169C7.02526 21.5414 5.56155 20.4321 5.97707 19.0981L7.15008 15.3323C7.33591 14.7357 7.13234 14.0822 6.64583 13.7135L3.57485 11.3861C2.48699 10.5616 3.04607 8.76676 4.39075 8.76676H8.18669C8.78804 8.76676 9.32101 8.36285 9.50684 7.76627L10.6798 4.00049Z" stroke="currentColor" stroke-width="1.5"/></svg></button>
     <button class="sidebar__tab" data-tab="smak" title="Смак" aria-label="Смак"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M16.9568 9.28678L18.6635 8.38601C19.7203 7.87092 20.8083 9.04019 20.4991 10.3587L18.3039 15.8502C18.1521 16.23 17.7843 16.479 17.3753 16.479L6.67719 16.479C6.26821 16.479 5.90044 16.23 5.74863 15.8502L3.55343 10.3587C3.24426 9.04019 4.33226 7.87092 5.38906 8.38601L7.15225 9.29811C7.64756 9.55433 8.25674 9.35591 8.50614 8.85713L11.1583 3.55279C11.5268 2.81574 12.5786 2.81574 12.9472 3.55279L15.5956 8.84962C15.8464 9.3513 16.4607 9.54859 16.9568 9.28678Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M9.05273 20.2638L15.0527 20.2639" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button class="sidebar__tab" id="adminPanelTab" data-tab="admin" title="Админ-панель" aria-label="Админ-панель" hidden><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3.5 19 6v5.4c0 4.2-2.8 7.9-7 9.1-4.2-1.2-7-4.9-7-9.1V6l7-2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="m9.2 12 1.8 1.8 3.9-4.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </nav>
 </aside>
 
@@ -31,11 +44,11 @@
     </div>
 
     <div id="topbarLoggedIn" style="display:none; align-items:center; gap:10px; margin-left:auto;">
-      <span class="mono" id="loggedInAs" style="font-size:13px; color:var(--text-dim);"></span>
-      <button class="btn btn--ghost" id="logoutBtn">Выйти</button>
-      <button class="btn btn--primary" id="openCreateModal">
-        <span class="btn__icon">+</span>
-        Создать альбом
+      <button class="profile-trigger" id="profileBtn" type="button" aria-label="Открыть профиль" title="Профиль">
+        <span class="profile-avatar">
+          <img id="topbarAvatar" alt="" hidden>
+          <svg id="topbarAvatarFallback" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M4.5 20c.7-4 3.2-6 7.5-6s6.8 2 7.5 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </span>
       </button>
     </div>
   </div>
@@ -61,7 +74,10 @@
 
     <div class="view__head">
       <h2 class="view__title view__title--sub">Все альбомы</h2>
-      <span class="view__count mono" id="albumCount">0 альбомов</span>
+      <div class="view__head-actions">
+        <span class="view__count mono" id="albumCount">0 альбомов</span>
+        <button class="create-album-btn" id="openCreateModal" type="button" title="Создать альбом" aria-label="Создать альбом">+</button>
+      </div>
     </div>
 
     <div class="album-grid" id="albumGrid">
@@ -93,6 +109,64 @@
     <div class="view__head"><h1 class="view__title">Смак</h1><span class="view__count mono" id="smakCount">0 альбомов</span></div>
     <div class="smak-grid" id="smakGrid"></div>
     <div class="empty-state empty-state--small" id="emptySmak"><h2>Админы ещё не выбрали смак</h2><p>Когда админ поставит альбому оценку от 1 до 100, он появится здесь.</p></div>
+  </section>
+
+  <section class="view view--admin" id="view-admin" hidden>
+    <div class="view__head"><h1 class="view__title">Админ-панель</h1></div>
+    <p class="admin-panel__intro">Выдавайте модераторов. Они могут ставить «Смак» и удалять отзывы, кроме отзывов tetrix.</p>
+    <input class="admin-user-search" id="adminUserSearch" type="search" placeholder="Найти пользователя" autocomplete="off">
+    <form class="admin-ban-form" id="adminBanForm" hidden>
+      <div class="admin-ban-form__title">Бан: <span id="adminBanUsername"></span></div>
+      <div class="admin-ban-form__fields">
+        <label>Дней<input id="adminBanDays" type="number" min="1" max="3650" value="7" required></label>
+        <label>Причина<input id="adminBanReason" type="text" maxlength="160" placeholder="Укажите причину" required></label>
+      </div>
+      <div class="admin-ban-form__actions"><button class="btn btn--ghost" id="cancelBanBtn" type="button">Отмена</button><button class="btn btn--danger" type="submit">Забанить</button></div>
+    </form>
+    <div class="admin-users" id="adminUsersList"></div>
+  </section>
+
+  <section class="view view--profile" id="view-profile" hidden>
+    <button class="back-btn" id="profileBackBtn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M11 18L5.70711 12.7071C5.31658 12.3166 5.31658 11.6834 5.70711 11.2929L11 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 12L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Назад
+    </button>
+    <div class="profile-page__head">
+      <h1 class="view__title">Настройки профиля</h1>
+      <p>Здесь меняются только то, как вас видят в Vibify, и ваша фотография.</p>
+    </div>
+    <div class="profile-card">
+      <div class="profile-photo-editor">
+        <div class="profile-avatar profile-avatar--large">
+          <img id="profileAvatarPreview" alt="Ваш аватар" hidden>
+          <svg id="profileAvatarFallback" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M4.5 20c.7-4 3.2-6 7.5-6s6.8 2 7.5 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <label class="btn btn--ghost profile-photo-editor__upload" for="profileAvatarInput">Загрузить фото</label>
+          <input id="profileAvatarInput" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+          <button class="profile-photo-editor__remove" id="removeProfileAvatar" type="button">Убрать фото</button>
+          <p>PNG, JPG или WebP. Фото будет обрезано до квадрата.</p>
+        </div>
+      </div>
+      <div class="profile-fields">
+        <label class="profile-field">
+          <span>Отображаемое имя</span>
+          <input id="profileDisplayName" type="text" maxlength="32" autocomplete="nickname" placeholder="Как вас показывать">
+        </label>
+        <label class="profile-field">
+          <span>Логин</span>
+          <input id="profileUsername" type="text" readonly>
+          <small>Логин используется для входа и не меняется.</small>
+        </label>
+      </div>
+      <div class="profile-card__footer">
+        <span id="profileSaveStatus" role="status"></span>
+        <div class="profile-card__actions">
+          <button class="btn btn--danger" id="logoutBtn" type="button">Выйти из аккаунта</button>
+          <button class="btn btn--primary" id="saveProfileBtn" type="button">Сохранить профиль</button>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section class="view view--album" id="view-album" hidden>
@@ -128,6 +202,17 @@
           </button>
         </div>
 
+        <div class="album-creator">
+          <span class="album-creator__avatar">
+            <img id="albumCreatorAvatar" alt="" hidden>
+            <svg id="albumCreatorAvatarFallback" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M4.5 20c.7-4 3.2-6 7.5-6s6.8 2 7.5 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </span>
+          <div class="album-creator__info">
+            <span class="album-creator__label">Создатель</span>
+            <span class="album-creator__name" id="albumCreatorName">Без имени</span>
+          </div>
+        </div>
+
         <div class="album-header__row">
           <span class="mono album-header__meta" id="albumMeta">0 треков</span>
           <button class="share-btn" id="adminToggleBtn" title="Режим администратора" hidden>
@@ -155,7 +240,7 @@
     </div>
 
     <div class="admin-smak-panel" id="adminSmakPanel" hidden>
-      <div class="admin-smak-panel__head"><span>Админский смак</span><span class="mono">1–100</span></div>
+      <div class="admin-smak-panel__head"><span>Смак модератора</span><span class="mono">1–100</span></div>
       <div class="smak-slider"><div class="smak-slider__top"><span class="smak-slider__label">Оценка</span><span class="smak-slider__value mono" id="adminSmakScoreValue">50</span></div><input type="range" id="adminSmakScoreInput" min="1" max="100" value="50"></div>
       <div class="admin-smak-panel__controls"><input type="text" id="adminSmakCommentInput" maxlength="180" placeholder="Комментарий админа"><button class="btn btn--primary" id="saveSmakBtn">Отправить в смак</button></div>
     </div>
@@ -226,12 +311,11 @@
     <textarea class="modal__input modal__input--spaced" id="albumDescriptionInputModal" placeholder="Описание коко пепе" maxlength="200" rows="2" style="font-family: inherit; resize: vertical;"></textarea>
 
     <div class="smart-photo">
-      <button class="btn btn--ghost smart-photo__btn" id="smartPhotoBtn" type="button">
+      <button class="smart-photo__btn" id="smartPhotoBtn" type="button" aria-label="Умное фото" title="Умное фото">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 8C3 6.34315 4.34315 5 6 5H7.5L8.5 3.5C8.77614 3.20391 9 3 9.5 3H14.5C15 3 15.2239 3.20391 15.5 3.5L16.5 5H18C19.6569 5 21 6.34315 21 8V17C21 18.6569 19.6569 20 18 20H6C4.34315 20 3 18.6569 3 17V8Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="12" cy="12.5" r="3.5" stroke="currentColor" stroke-width="1.5"/></svg>
-        Умное фото
       </button>
       <input type="file" id="smartPhotoInput" accept="image/*" hidden>
-      <span class="smart-photo__hint">Загрузите скриншот плейлиста — песни добавятся сами</span>
+      <span class="smart-photo__hint">Умное фото: распознать треки со скриншота</span>
       <div class="smart-photo__status" id="smartPhotoStatus" hidden></div>
       <div class="smart-photo__results" id="smartPhotoResults" hidden></div>
     </div>
